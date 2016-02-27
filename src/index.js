@@ -64,10 +64,10 @@ function remakeBody (body, bodyType) {
 /**
  * Serialise a Request to a string or object.
  * @param {Request} request
- * @param {Boolean} toObject serialise to an object
- * @returns {String}
+ * @param {Boolean} [toObject] serialise to an object
+ * @returns {Promise}
  */
-function serialise (request, toObject) {
+function serialiseRequest (request, toObject) {
   if (!(request instanceof Request)) {
     throw new Error('Expecting request to be instance of Request')
   }
@@ -101,7 +101,7 @@ function serialise (request, toObject) {
  * @param {Object|String} serialised
  * @returns {Request}
  */
-function deserialise (serialised) {
+function deserialiseRequest (serialised) {
   let options, url
 
   if (typeof serialised === 'string') {
@@ -141,8 +141,8 @@ function deserialise (serialised) {
 }
 
 const api = {
-  serialiseRequest: serialise,
-  deserialiseRequest: deserialise
+  serialiseRequest,
+  deserialiseRequest
 }
 
 /* global define:false window:false */
