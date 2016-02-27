@@ -72,30 +72,19 @@ function serialise (request, toObject) {
     throw new Error('Expecting request to be instance of Request')
   }
 
+  const serialised = {
+    ...request,
+    headers: [...request.headers]
+  }
+
   return request
     .blob()
     .then(blobUtil.blobToBase64String)
     .then((base64) => {
-      return {
-        method: request.method,
-        url: request.url,
-        headers: [...request.headers],
-        context: request.context,
-        referrer: request.referrer,
-        mode: request.mode,
-        credentials: request.credentials,
-        redirect: request.redirect,
-        integrity: request.integrity,
-        cache: request.cache,
-        bodyUsed: request.bodyUsed,
-        __body: base64,
-        __isRequest: true
-      }
-    })
-    .then((obj) => {
+      serialised.__body = base64
       return toObject
-        ? obj
-        : JSON.stringify(obj)
+        ? serialised
+        : JSON.stringify(serialised)
     })
 }
 
@@ -105,7 +94,8 @@ function serialise (request, toObject) {
  * @returns {Request}
  */
 function deserialise (serialised) {
-  let options, url
+  let options
+  let url
 
   if (typeof serialised === 'string') {
     options = JSON.parse(serialised)
@@ -114,7 +104,7 @@ function deserialise (serialised) {
     options = serialised
     url = options.url
   } else {
-    throw new Error('Expecting serialised to be String or Object')
+    throw new Error('Expecting serialised request to be String or Object')
   }
 
   const request = new Request(url, options)
@@ -126,12 +116,12 @@ function deserialise (serialised) {
     }
   }
 
-  const methods = Object.keys(BodyTypes).reduce((obj, key) => {
-    const methodName = BodyMethods[key]
+  const methods = Object.keys(BodyMethods).reduce((obj, bodyType) => {
+    const methodName = BodyMethods[bodyType]
     obj[methodName] = function () {
       if (!request.bodyUsed) {
         request.bodyUsed = true
-        return Promise.resolve(remakeBody(options.__body, key))
+        return Promise.resolve(remakeBody(options.__body, bodyType))
       }
       return Promise.reject(new TypeError('Already used'))
     }
