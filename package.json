@@ -1,0 +1,42 @@
+{
+  "name": "serialise-request",
+  "version": "0.0.1",
+  "description": "Serialise and de-serialise HTML5 Requests",
+  "author": "Sam Gluck <sdgluck@gmail.com>",
+  "license": "MIT",
+  "main": "dist/serialise-request.min.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sdgluck/serialise-request.git"
+  },
+  "scripts": {
+    "lint": "standard src/index.js",
+    "build": "webpack --progress --colours webpack.config.js",
+    "prepublish": "npm run lint && npm run build"
+  },
+  "bugs": {
+    "url": "https://github.com/sdgluck/serialise-request/issues"
+  },
+  "keywords": [
+    "serialise",
+    "deserialise",
+    "html5",
+    "request"
+  ],
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.2.0",
+    "babel-core": "^6.5.2",
+    "babel-eslint": "^5.0.0",
+    "babel-loader": "^6.2.3",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-stage-0": "^6.3.13",
+    "standard": "^6.0.5"
+  },
+  "dependencies": {
+    "blob-util": "^1.2.0"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  }
+}
