@@ -68,6 +68,10 @@ function remakeBody (body, bodyType) {
  * @returns {String}
  */
 function serialise (request, toObject) {
+  if (!(request instanceof Request)) {
+    throw new Error('Expecting request to be instance of Request')
+  }
+
   return request
     .blob()
     .then(blobUtil.blobToBase64String)
@@ -89,10 +93,9 @@ function serialise (request, toObject) {
       }
     })
     .then((obj) => {
-      if (toObject) {
-        return obj
-      }
-      return JSON.stringify(obj)
+      return toObject
+        ? obj
+        : JSON.stringify(obj)
     })
 }
 
@@ -140,8 +143,10 @@ function deserialise (serialised) {
   return request
 }
 
-const api = serialise
-api.deserialiseRequest = deserialise
+const api = {
+  serialiseRequest: serialise,
+  deserialiseRequest: deserialise
+}
 
 /* global define:false window:false */
 if (typeof define === 'function' && define.amd) {
