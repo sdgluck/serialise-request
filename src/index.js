@@ -73,8 +73,16 @@ function serialise (request, toObject) {
   }
 
   const serialised = {
-    ...request,
-    headers: [...request.headers]
+    method: request.method,
+    url: request.url,
+    headers: [...request.headers],
+    context: request.context,
+    referrer: request.referrer,
+    mode: request.mode,
+    credentials: request.credentials,
+    redirect: request.redirect,
+    integrity: request.integrity,
+    cache: request.cache
   }
 
   return request
@@ -94,8 +102,7 @@ function serialise (request, toObject) {
  * @returns {Request}
  */
 function deserialise (serialised) {
-  let options
-  let url
+  let options, url
 
   if (typeof serialised === 'string') {
     options = JSON.parse(serialised)
@@ -116,12 +123,12 @@ function deserialise (serialised) {
     }
   }
 
-  const methods = Object.keys(BodyMethods).reduce((obj, bodyType) => {
-    const methodName = BodyMethods[bodyType]
+  const methods = Object.keys(BodyTypes).reduce((obj, key) => {
+    const methodName = BodyMethods[key]
     obj[methodName] = function () {
       if (!request.bodyUsed) {
         request.bodyUsed = true
-        return Promise.resolve(remakeBody(options.__body, bodyType))
+        return Promise.resolve(remakeBody(options.__body, key))
       }
       return Promise.reject(new TypeError('Already used'))
     }
