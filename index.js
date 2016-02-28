@@ -2,9 +2,9 @@
 
 /* global Request:false */
 
-import blobUtil from 'blob-util'
+var blobUtil = require('blob-util')
 
-const BodyTypes = {
+var BodyTypes = {
   ARRAY_BUFFER: 'ARRAY_BUFFER',
   BLOB: 'BLOB',
   FORM_DATA: 'FORM_DATA',
@@ -12,12 +12,12 @@ const BodyTypes = {
   TEXT: 'TEXT'
 }
 
-const BodyMethods = {
-  [BodyTypes.ARRAY_BUFFER]: 'arrayBuffer',
-  [BodyTypes.BLOB]: 'blob',
-  [BodyTypes.FORM_DATA]: 'formData',
-  [BodyTypes.JSON]: 'json',
-  [BodyTypes.TEXT]: 'text'
+var BodyMethods = {
+  ARRAY_BUFFER: 'arrayBuffer',
+  BLOB: 'blob',
+  FORM_DATA: 'formData',
+  JSON: 'json',
+  TEXT: 'text'
 }
 
 /**
@@ -28,7 +28,7 @@ const BodyMethods = {
 function blobToString (blob) {
   return blobUtil
     .blobToArrayBuffer(blob)
-    .then((buffer) => {
+    .then(function (buffer) {
       return String.fromCharCode.apply(null, new Uint16Array(buffer))
     })
 }
@@ -42,7 +42,7 @@ function blobToString (blob) {
 function remakeBody (body, bodyType) {
   return blobUtil
     .base64StringToBlob(body)
-    .then((blob) => {
+    .then(function (blob) {
       switch (bodyType) {
         case BodyTypes.ARRAY_BUFFER:
           return blobUtil.blobToArrayBuffer(blob)
@@ -52,11 +52,13 @@ function remakeBody (body, bodyType) {
           throw new Error('Cannot make FormData from serialised Request')
         case BodyTypes.JSON:
           return blobToString(blob)
-            .then((str) => JSON.parse(str))
+            .then(function (str) {
+              return JSON.parse(str)
+            })
         case BodyTypes.TEXT:
           return blobToString(blob)
         default:
-          throw new Error(`Unknown requested body type '${bodyType}'`)
+          throw new Error('Unknown requested body type "' + bodyType + '"')
       }
     })
 }
@@ -72,23 +74,31 @@ function serialiseRequest (request, toObject) {
     throw new Error('Expecting request to be instance of Request')
   }
 
-  const serialised = {
+  var headers = []
+  var headerNames = request.headers.keys()
+  for (var i = 0; i < headerNames.length; i++) {
+    var headerName = headerNames[i]
+    headers[headerName] = request.headers.get(headerName)
+  }
+
+  var serialised = {
     method: request.method,
     url: request.url,
-    headers: [...request.headers],
+    headers: headers,
     context: request.context,
     referrer: request.referrer,
     mode: request.mode,
     credentials: request.credentials,
     redirect: request.redirect,
     integrity: request.integrity,
-    cache: request.cache
+    cache: request.cache,
+    bodyUsed: request.bodyUsed
   }
 
   return request
     .blob()
     .then(blobUtil.blobToBase64String)
-    .then((base64) => {
+    .then(function (base64) {
       serialised.__body = base64
       return toObject
         ? serialised
@@ -97,12 +107,13 @@ function serialiseRequest (request, toObject) {
 }
 
 /**
- * De-serialise a Request from JSON or serialised JSON.
+ * De-serialise a Request from a string or object.
  * @param {Object|String} serialised
  * @returns {Request}
  */
 function deserialiseRequest (serialised) {
-  let options, url
+  var options
+  var url
 
   if (typeof serialised === 'string') {
     options = JSON.parse(serialised)
@@ -111,7 +122,7 @@ function deserialiseRequest (serialised) {
     options = serialised
     url = options.url
   } else {
-    throw new Error('Expecting serialised request to be String or Object')
+    throw new Error('Expecting serialised request to be a string or object')
   }
 
   const request = new Request(url, options)
@@ -123,14 +134,17 @@ function deserialiseRequest (serialised) {
     }
   }
 
-  const methods = Object.keys(BodyTypes).reduce((obj, key) => {
+  const methods = Object.keys(BodyTypes).reduce(function (obj, key) {
     const methodName = BodyMethods[key]
-    obj[methodName] = function () {
-      if (!request.bodyUsed) {
+    obj[methodName] = {
+      enumerable: true,
+      value: function () {
+        if (request.bodyUsed) {
+          return Promise.reject(new TypeError('Already used'))
+        }
         request.bodyUsed = true
         return Promise.resolve(remakeBody(options.__body, key))
       }
-      return Promise.reject(new TypeError('Already used'))
     }
     return obj
   }, properties)
@@ -140,18 +154,19 @@ function deserialiseRequest (serialised) {
   return request
 }
 
-const api = {
-  serialiseRequest,
-  deserialiseRequest
-}
+serialiseRequest.deserialiseRequest = deserialiseRequest
+serialiseRequest.deserializeRequest = deserialiseRequest
 
 /* global define:false window:false */
 if (typeof define === 'function' && define.amd) {
-  define('serialiseRequest', () => api)
+  define('serialiseRequest', function () {
+    return serialiseRequest
+  })
 } else if (typeof module === 'object' && module.exports) {
-  module.exports = api
+  module.exports = serialiseRequest
 } else if (typeof window !== 'undefined') {
-  window.serialiseRequest = api
+  window.serialiseRequest = serialiseRequest
+  window.serializeRequest = serialiseRequest
 } else {
   throw new Error(
     'Environment is not supported. ' +
