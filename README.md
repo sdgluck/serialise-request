@@ -22,6 +22,7 @@ __CommonJS Require__
 __Script__
 
     <script src="/node_modules/serialise-request/dist/serialise-request.min.js"></script>
+    typeof window.serialiseRequest === 'object'
 
 ## Usage
 
