@@ -154,12 +154,15 @@ function deserialiseRequest (serialised) {
   return request
 }
 
-serialiseRequest.deserialiseRequest = deserialiseRequest
-serialiseRequest.deserializeRequest = deserialiseRequest
+serialiseRequest.deserialise = deserialiseRequest
+serialiseRequest.deserialize = deserialiseRequest
 
 /* global define:false window:false */
 if (typeof define === 'function' && define.amd) {
   define('serialiseRequest', function () {
+    return serialiseRequest
+  })
+  define('serializeRequest', function () {
     return serialiseRequest
   })
 } else if (typeof module === 'object' && module.exports) {

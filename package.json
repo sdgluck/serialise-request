@@ -1,6 +1,6 @@
 {
   "name": "serialise-request",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Serialise and de-serialise HTML5 Requests",
   "author": "Sam Gluck <sdgluck@gmail.com>",
   "license": "MIT",
