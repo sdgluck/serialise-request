@@ -10,6 +10,8 @@ Made with ❤ at [@outlandish](http://www.twitter.com/outlandish)
 ## Install
 
     npm install serialise-request --save
+    
+## Import
 
 __ES6 Import (w/ Babel)__
 
@@ -18,6 +20,10 @@ __ES6 Import (w/ Babel)__
 __CommonJS Require__
 
     var serialiseRequest = require('serialise-request')
+    
+__RequireJS__
+
+    define(['serialiseRequest'], ...)
 
 __Script__
 
