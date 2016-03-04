@@ -11,25 +11,6 @@ Made with ❤ at [@outlandish](http://www.twitter.com/outlandish)
 
     npm install serialise-request --save
     
-## Import
-
-__ES6 Import (w/ Babel)__
-
-    import serialiseRequest from 'serialise-request'
-
-__CommonJS Require__
-
-    var serialiseRequest = require('serialise-request')
-    
-__RequireJS__
-
-    define(['serialiseRequest'], ...)
-
-__Script__
-
-    <script src="/node_modules/serialise-request/dist/serialise-request.min.js"></script>
-    typeof window.serialiseRequest === 'object'
-
 ## Usage
 
 `serialiseRequest(request[, toObject]) : String|Object`
