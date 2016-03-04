@@ -1,6 +1,6 @@
 # serialise-request
 
-> Serialise and de-serialise HTML5 Requests
+> Serialise and deserialise a Fetch Request
 
 Made with ❤ at [@outlandish](http://www.twitter.com/outlandish)
 
