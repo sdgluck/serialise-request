@@ -39,7 +39,7 @@ _Function names are also made available in American English: `serializeRequest` 
     request.method //=> 'GET'
     request.url //=> 'http://foo'
     request.json().then((data) => {
-      console.log(data) //=> { bar: baz }
+      console.log(data) //=> { bar: 'baz' }
     })
 
 ## What about serialising a Response?
