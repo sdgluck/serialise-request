@@ -28,7 +28,7 @@ _Function names are also made available in American English: `serializeRequest` 
 
     import serialiseRequest from 'serialise-request'
 
-    const serialiseRequest = serialiseRequest(
+    const serialisedRequest = serialiseRequest(
       new Request('http://foo', { bar: 'baz' })
     )
 
