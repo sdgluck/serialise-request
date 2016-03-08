@@ -15,7 +15,7 @@ Exported using UMD pattern, otherwise available on `window` as `serialiseRequest
     
 ## Usage
 
-`serialiseRequest(request[, toObject]) : String|Object`
+### `serialiseRequest(request[, toObject]) : String|Object`
 
 Serialise a Request. (The function base64 encodes the result of calling `blob()`.)
 
@@ -24,7 +24,7 @@ Serialise a Request. (The function base64 encodes the result of calling `blob()`
 
 <p>______</p>
 
-`serialiseRequest.deserialise(request) : Promise<Request>`
+### `serialiseRequest.deserialise(request) : Promise<Request>`
 
 Deserialise a Request serialised using `serialise-request`. Caveat: as there is no way to serialise a FormData object the `formData()` method is unsupported on the result and will throw if called.
 
