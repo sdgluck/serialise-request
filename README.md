@@ -30,6 +30,8 @@ Deserialise a Request serialised using `serialise-request`. Caveat: as there is 
 
 - __request__ {String|Object} request to deserialise
 
+<p>______</p>
+
 _Function names are also made available in American English: `serializeRequest` and `serializeRequest.deserialize`._
 
 ## Example
