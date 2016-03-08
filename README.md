@@ -17,7 +17,9 @@ Exported using UMD pattern, otherwise available on `window` as `serialiseRequest
 
 `serialiseRequest(request[, toObject]) : String|Object`
 
-Serialise a Request. The function base64 encodes the result of calling `blob()`.
+Serialise a Request. (The function base64 encodes the result of calling `blob()`.)
+
+<p>______</p>
 
 - __request__ {Request} request to serialise
 - __toObject__ {Boolean} serialise request to an object (default is string)
