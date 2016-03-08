@@ -17,10 +17,14 @@ Exported using UMD pattern, otherwise available on `window` as `serialiseRequest
 
 `serialiseRequest(request[, toObject]) : String|Object`
 
+Serialise a Request. The function base64 encodes the result of calling `blob()`.
+
 - __request__ {Request} request to serialise
 - __toObject__ {Boolean} serialise request to an object (default is string)
 
 `serialiseRequest.deserialise(request) : Promise<Request>`
+
+Deserialise a Request serialised using `serialise-request`. Caveat: as there is no way to serialise a FormData object the `formData()` method is unsupported on the result and will throw if called.
 
 - __request__ {String|Object} request to deserialise
 
@@ -43,6 +47,8 @@ _Function names are also made available in American English: `serializeRequest` 
     request.json().then((data) => {
       console.log(data) //=> { bar: 'baz' }
     })
+    
+## Gotchas
 
 ## What about serialising a Response?
 
