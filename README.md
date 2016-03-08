@@ -11,6 +11,8 @@ Made with ❤ at [@outlandish](http://www.twitter.com/outlandish)
 
     npm install serialise-request --save
     
+Exported using UMD pattern, otherwise available on `window` as `serialiseRequest` and `serializeRequest`.
+    
 ## Usage
 
 `serialiseRequest(request[, toObject]) : String|Object`
