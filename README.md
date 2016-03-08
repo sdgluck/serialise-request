@@ -28,13 +28,13 @@ _Function names are also made available in American English: `serializeRequest` 
 
     import serialiseRequest from 'serialise-request'
 
-    const serialisedRequest = serialiseRequest(
+    const serialiseRequest = serialiseRequest(
       new Request('http://foo', { bar: 'baz' })
     )
 
     // ...
 
-    const request = serialisedRequest.deserialise(serialisedRequest)
+    const request = serialiseRequest.deserialise(serialisedRequest)
 
     request.method //=> 'GET'
     request.url //=> 'http://foo'
