@@ -20,9 +20,9 @@ Made with ❤ at [@outlandish](http://www.twitter.com/outlandish)
 
 `serialiseRequest.deserialise(request) : Promise<Request>`
 
-- __request__ {String|Object} serialised request to deserialise
+- __request__ {String|Object} request to deserialise
 
-_Function names are also made available in American English: `serializeRequest` and `serializeRequest.deserialize`_
+_Function names are also made available in American English: `serializeRequest` and `serializeRequest.deserialize`._
 
 ## Example
 
