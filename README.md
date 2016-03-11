@@ -51,8 +51,6 @@ _Function names are also made available in American English: `serializeRequest` 
     request.json().then((data) => {
       console.log(data) //=> { bar: 'baz' }
     })
-    
-## Gotchas
 
 ## What about serialising a Response?
 
