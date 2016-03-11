@@ -34,7 +34,7 @@ function blobToString (blob) {
 }
 
 /**
- * De-serialise the body of a Request.
+ * Deserialise the body of a Request.
  * @param {String} body
  * @param {String} bodyType
  * @returns {Promise}
@@ -107,7 +107,7 @@ function serialiseRequest (request, toObject) {
 }
 
 /**
- * De-serialise a Request from a string or object.
+ * Deserialise a Request from a string or object.
  * @param {Object|String} serialised
  * @returns {Request}
  */
