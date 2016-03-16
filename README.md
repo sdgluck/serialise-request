@@ -19,6 +19,8 @@ Exported using UMD pattern, otherwise available on `window` as `serialiseRequest
 
 Serialise a Request. (The function base64 encodes the result of calling `blob()`.)
 
+Function also made available as `serializeRequest`.
+
 - __request__ {Request} request to serialise
 - __toObject__ {Boolean} serialise request to an object (default is string)
 
@@ -28,11 +30,9 @@ Serialise a Request. (The function base64 encodes the result of calling `blob()`
 
 Deserialise a Request serialised using `serialise-request`. Caveat: as there is no way to serialise a FormData object the `formData()` method is unsupported on the result and will throw if called.
 
+Function also made available as `serializeRequest.deserialize`.
+
 - __request__ {String|Object} request to deserialise
-
-<p>______</p>
-
-_Function names are also made available in American English: `serializeRequest` and `serializeRequest.deserialize`._
 
 ## Example
 
